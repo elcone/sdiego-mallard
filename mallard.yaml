@@ -1,0 +1,53 @@
+name: mallard-sdiego
+type: duckdb
+storage: filesystem
+environment: dev
+description: Privada San Diego
+layers:
+- name: staging
+  source_type: files
+  models:
+  - name: bajio_movimientos
+    load_strategy: full
+    source_format: parquet
+  - name: gsheets_casas
+    load_strategy: full
+    source_format: parquet
+  - name: gsheets_categorias_de_gastos
+    load_strategy: full
+    source_format: parquet
+  - name: gsheets_cuotas
+    load_strategy: full
+    source_format: parquet
+  - name: gsheets_gastos
+    load_strategy: full
+    source_format: parquet
+  - name: gsheets_otros_ingresos
+    load_strategy: full
+    source_format: parquet
+  - name: gsheets_presupuesto
+    load_strategy: full
+    source_format: parquet
+- name: bronze
+  source_type: sql
+  models:
+  - name: bajio_movimientos
+    load_strategy: delete_insert
+    delete_condition: EXISTS (SELECT 1 FROM staging.bajio_movimientos WHERE recibo = bronze.bajio_movimientos.recibo)
+  - name: gsheets_cuotas
+  - name: gsheets_gastos
+  - name: gsheets_presupuesto
+- name: silver
+  source_type: sql
+  models:
+  - name: bajio_movimientos
+    load_strategy: delete_insert
+    delete_condition: EXISTS (SELECT 1 FROM staging.bajio_movimientos WHERE recibo = silver.bajio_movimientos.recibo)
+  - name: ingresos
+  - name: gastos
+  - name: pagos_de_casas
+- name: gold
+  source_type: sql
+  models:
+  - name: saldos_por_casa
+  - name: saldo_bajio
