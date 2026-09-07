@@ -12,3 +12,4 @@ SELECT
     Comentarios AS comentarios,
     "Recibo bancario" AS recibo_bancario
 FROM staging.gsheets_gastos
+WHERE Fecha IS NOT NULL

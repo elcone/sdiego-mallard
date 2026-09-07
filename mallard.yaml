@@ -51,3 +51,4 @@ layers:
   models:
   - name: saldos_por_casa
   - name: saldo_bajio
+  - name: gastos_mensuales
