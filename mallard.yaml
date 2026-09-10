@@ -55,3 +55,4 @@ layers:
   - name: saldos_por_casa
   - name: saldo_bajio
   - name: gastos_mensuales
+  - name: saldos_bancarios
