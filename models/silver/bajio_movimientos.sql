@@ -35,6 +35,17 @@ movimientos AS (
             WHEN movimiento.abonos IS NOT NULL THEN 'INGRESO'
         END AS tipo,
         CASE
+            WHEN movimiento.descripcion LIKE 'IVA Comisión por Transferencia%' THEN TRUE
+            WHEN movimiento.descripcion LIKE 'Comisión por Transferencia%' THEN TRUE
+            WHEN movimiento.descripcion LIKE 'IVA Comisión por Administración%' THEN TRUE
+            WHEN movimiento.descripcion LIKE 'Comisión por Administración%' THEN TRUE
+            ELSE FALSE
+        END AS es_comision_bancaria,
+        CASE
+            WHEN movimiento.descripcion LIKE 'Devolución de SPEI%' THEN TRUE
+            ELSE FALSE
+        END AS es_devolucion_spei,
+        CASE
             WHEN movimiento.cargos IS NOT NULL THEN movimiento.cargos
             WHEN movimiento.abonos IS NOT NULL THEN movimiento.abonos
         END AS importe,
@@ -56,6 +67,8 @@ SELECT
     fecha,
     fecha + hora AS fecha_y_hora,
     tipo,
+    es_comision_bancaria,
+    es_devolucion_spei,
     importe,
     recibo,
     descripcion,

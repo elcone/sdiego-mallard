@@ -28,6 +28,7 @@ layers:
   - name: gsheets_presupuesto
     load_strategy: full
     source_format: parquet
+
 - name: bronze
   source_type: sql
   models:
@@ -37,6 +38,7 @@ layers:
   - name: gsheets_cuotas
   - name: gsheets_gastos
   - name: gsheets_presupuesto
+
 - name: silver
   source_type: sql
   models:
@@ -46,6 +48,7 @@ layers:
   - name: ingresos
   - name: gastos
   - name: pagos_de_casas
+
 - name: gold
   source_type: sql
   models:
